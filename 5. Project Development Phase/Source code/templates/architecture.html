@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Technical Architecture{% endblock %}
+
+{% block content %}
+<section class="architecture-hero">
+    <p class="eyebrow">Technical Architecture</p>
+    <h1>Layered design for real-time loan eligibility prediction.</h1>
+    <p class="lede">
+        This page maps the project to the reference architecture: user entry,
+        Flask request handling, machine learning training, model storage,
+        prediction serving, and IBM Cloud deployment.
+    </p>
+</section>
+
+<section class="reference-diagram">
+    <img src="{{ url_for('static', filename='images/technical_architecture_reference.jpg') }}" alt="Reference technical architecture diagram">
+</section>
+
+<section class="architecture-flow" aria-label="Smart Lender architecture layers">
+    <article class="layer-card user-layer">
+        <h2>User Layer</h2>
+        <ul>
+            <li>Loan applicant submits profile details.</li>
+            <li>Credit officer or financial analyst reviews predictions.</li>
+            <li>Browser receives the prediction result.</li>
+        </ul>
+    </article>
+
+    <article class="layer-card frontend-layer">
+        <h2>Frontend Layer</h2>
+        <ul>
+            <li><code>home.html</code> shows dashboard and model readiness.</li>
+            <li><code>predict.html</code> collects applicant inputs.</li>
+            <li><code>submit.html</code> renders approval or rejection output.</li>
+            <li>Responsive UI supports desktop and mobile workflows.</li>
+        </ul>
+    </article>
+
+    <article class="layer-card flask-layer">
+        <h2>Flask Application Layer</h2>
+        <ul>
+            <li><code>app.py</code> defines routes and POST handling.</li>
+            <li>Input validation rejects missing or invalid values.</li>
+            <li>Request data is converted into the model feature schema.</li>
+            <li>Result templates display decision, risk level, and confidence.</li>
+        </ul>
+    </article>
+
+    <article class="layer-card prediction-layer">
+        <h2>Prediction Engine</h2>
+        <ul>
+            <li>Flask loads the saved <code>.pkl</code> model artifact.</li>
+            <li>User input is converted into a single feature vector.</li>
+            <li>The model predicts loan approved or loan rejected.</li>
+            <li>Prediction probability is shown as confidence.</li>
+        </ul>
+    </article>
+
+    <article class="layer-card ml-layer">
+        <h2>Machine Learning Pipeline</h2>
+        <ul>
+            <li>Dataset collection from the loan applicant CSV.</li>
+            <li>Missing values handled with median and mode imputation.</li>
+            <li>Categorical variables encoded with one-hot encoding.</li>
+            <li>Numerical fields scaled for model compatibility.</li>
+            <li>Train-test split with stratified sampling.</li>
+            <li>Decision Tree, Random Forest, KNN, and XGBoost training.</li>
+            <li>Accuracy, confusion matrix, classification report, and cross-validation.</li>
+            <li>Best model selection and serialized model storage.</li>
+        </ul>
+    </article>
+
+    <article class="layer-card deployment-layer">
+        <h2>Deployment Layer</h2>
+        <ul>
+            <li>IBM Cloud-ready <code>Procfile</code> and <code>manifest.yml</code>.</li>
+            <li><code>gunicorn app:app</code> web process for cloud hosting.</li>
+            <li>Browser-based access for bank users.</li>
+        </ul>
+    </article>
+</section>
+
+<section class="content-band">
+    <div>
+        <h2>Filled Gaps</h2>
+        <p>
+            The implementation now includes the reference diagram's missing
+            project details: named templates, request validation, cross-validation
+            metrics, saved <code>.pkl</code> storage, and deployment descriptors.
+        </p>
+    </div>
+    <ol class="flow-list">
+        <li><code>src.train_model</code> creates metrics and plots.</li>
+        <li><code>src.predict</code> handles feature conversion and prediction.</li>
+        <li><code>models/smart_lender_model.pkl</code> stores the active classifier.</li>
+        <li><code>static/plots</code> stores EDA and model comparison charts.</li>
+    </ol>
+</section>
+{% endblock %}

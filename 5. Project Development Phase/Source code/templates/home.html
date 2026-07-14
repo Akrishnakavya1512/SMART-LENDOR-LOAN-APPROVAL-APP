@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Lender Dashboard{% endblock %}
+
+{% block content %}
+<section class="workspace-grid">
+    <div class="intro-panel">
+        <p class="eyebrow">Loan Eligibility Prediction</p>
+        <h1>Credit decisions with a trained machine learning workflow.</h1>
+        <p class="lede">
+            Smart Lender evaluates applicant profiles using income, credit history,
+            loan amount, employment, education, and property data to support faster
+            loan approval decisions.
+        </p>
+        <div class="actions">
+            <a class="button primary" href="{{ url_for('predict') }}">Start Prediction</a>
+            <a class="button secondary" href="{{ url_for('architecture') }}">View Architecture</a>
+        </div>
+    </div>
+
+    <aside class="status-panel">
+        <h2>Model Status</h2>
+        {% if model_status.available %}
+            <div class="status available">Ready</div>
+            <dl>
+                <dt>Active model</dt>
+                <dd>{{ model_status.model_name }}</dd>
+                <dt>Testing accuracy</dt>
+                <dd>{{ "%.1f"|format(model_status.test_accuracy * 100) }}%</dd>
+            </dl>
+        {% else %}
+            <div class="status missing">Training required</div>
+            <p>Run <code>python -m src.train_model</code> to create the model artifact.</p>
+        {% endif %}
+    </aside>
+</section>
+
+<section class="metrics-strip" aria-label="Project capabilities">
+    <div>
+        <strong>4</strong>
+        <span>Classifiers</span>
+    </div>
+    <div>
+        <strong>11</strong>
+        <span>Applicant features</span>
+    </div>
+    <div>
+        <strong>Real-time</strong>
+        <span>Flask prediction</span>
+    </div>
+    <div>
+        <strong>IBM Cloud</strong>
+        <span>Deployment ready</span>
+    </div>
+</section>
+
+<section class="content-band">
+    <div>
+        <h2>Architecture</h2>
+        <p>
+            Applicant data flows from the Flask form into the preprocessing pipeline,
+            then into the saved classifier. The result returns as an approval or
+            high-risk decision with model confidence.
+        </p>
+    </div>
+    <ol class="flow-list">
+        <li>User layer submits applicant details</li>
+        <li>Frontend templates collect structured inputs</li>
+        <li>Flask validates and processes the POST request</li>
+        <li>ML pipeline transforms features and predicts eligibility</li>
+        <li>Deployment layer serves browser access through IBM Cloud</li>
+    </ol>
+</section>
+
+<section class="plot-grid">
+    <img src="{{ url_for('static', filename='plots/loan_status_distribution.png') }}" alt="Loan approval distribution chart" onerror="this.style.display='none'">
+    <img src="{{ url_for('static', filename='plots/model_accuracy_comparison.png') }}" alt="Model accuracy comparison chart" onerror="this.style.display='none'">
+</section>
+{% endblock %}
+

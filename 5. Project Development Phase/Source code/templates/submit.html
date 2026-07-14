@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Result{% endblock %}
+
+{% block content %}
+<section class="result-layout">
+    <div class="result-panel {% if result.risk_level == 'Low Risk' %}approved{% else %}rejected{% endif %}">
+        <p class="eyebrow">{{ result.model_name }}</p>
+        <h1>{{ result.decision }}</h1>
+        <p class="result-risk">{{ result.risk_level }}</p>
+        <div class="confidence">
+            <span>Confidence</span>
+            <strong>{{ "%.2f"|format(result.confidence) }}%</strong>
+        </div>
+        <p>{{ result.guidance }}</p>
+        <div class="actions">
+            <a class="button primary" href="{{ url_for('predict') }}">Run Another</a>
+            <a class="button secondary" href="{{ url_for('index') }}">Dashboard</a>
+        </div>
+    </div>
+
+    <aside class="summary-panel">
+        <h2>Applicant Snapshot</h2>
+        <dl>
+            {% for key, value in result.applicant.items() %}
+                <dt>{{ key.replace("_", " ") }}</dt>
+                <dd>{{ value }}</dd>
+            {% endfor %}
+        </dl>
+    </aside>
+</section>
+{% endblock %}
+
